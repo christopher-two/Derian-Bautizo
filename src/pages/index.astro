@@ -1,11 +1,93 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import "../styles/global.css";
+import Hero from "../components/Hero.astro";
+import Countdown from "../components/Countdown.astro";
+import PhotoGallery from "../components/PhotoGallery.astro";
+import EventDetails from "../components/EventDetails.astro";
+import SpotifyEmbed from "../components/SpotifyEmbed.astro";
+import MapEmbed from "../components/MapEmbed.astro";
+import RSVP from "../components/RSVP.astro";
+import Footer from "../components/Footer.astro";
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="description"
+			content="Invitación al Bautizo de Derian Tadeo Maldonado Lopez — 29 de Marzo 2026"
+		/>
+		<title>Bautizo · Derian Tadeo Maldonado Lopez</title>
+		<link
+			rel="icon"
+			type="image/svg+xml"
+			href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐴</text></svg>"
+		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	</head>
+	<body>
+		<!-- Navigation dots -->
+		<nav class="page-nav" aria-label="Navegación de secciones">
+			<a href="#hero" class="page-nav__dot" aria-label="Inicio"></a>
+			<a href="#countdown" class="page-nav__dot" aria-label="Contador"
+			></a>
+			<a href="#galeria" class="page-nav__dot" aria-label="Galería"></a>
+			<a href="#detalles" class="page-nav__dot" aria-label="Detalles"></a>
+			<a href="#playlist" class="page-nav__dot" aria-label="Música"></a>
+			<a href="#ubicacion" class="page-nav__dot" aria-label="Ubicación"
+			></a>
+			<a
+				href="#confirmacion"
+				class="page-nav__dot"
+				aria-label="Confirmación"></a>
+		</nav>
+
+		<main>
+			<Hero />
+			<Countdown />
+			<PhotoGallery />
+			<EventDetails />
+			<SpotifyEmbed />
+			<MapEmbed />
+			<RSVP />
+		</main>
+		<Footer />
+		<style is:global>
+			/* Navigation dots sidebar */
+			.page-nav {
+				position: fixed;
+				right: 1.25rem;
+				top: 50%;
+				transform: translateY(-50%);
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+				z-index: 100;
+			}
+
+			.page-nav__dot {
+				width: 8px;
+				height: 8px;
+				border-radius: 50%;
+				background: rgba(96, 165, 250, 0.35);
+				border: 1px solid rgba(96, 165, 250, 0.5);
+				transition: background 0.3s, transform 0.3s;
+				display: block;
+			}
+
+			.page-nav__dot:hover {
+				background: var(--blue-accent);
+				transform: scale(1.4);
+			}
+
+			@media (max-width: 768px) {
+				.page-nav {
+					display: none;
+				}
+			}
+		</style>
+	</body>
+</html>

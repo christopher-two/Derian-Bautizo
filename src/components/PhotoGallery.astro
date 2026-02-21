@@ -1,0 +1,311 @@
+---
+// PhotoGallery.astro — Infinite auto-scroll with click to zoom
+const photos = [
+    { src: "/tadeo_1.png", alt: "Tadeo - Retrato bautizo" },
+    { src: "/tadeo_2.png", alt: "Ceremonia de bautizo" },
+    { src: "/tadeo_3.png", alt: "Tadeo durmiendo" },
+    { src: "/tadeo_4.png", alt: "Tadeo con mamá" },
+    { src: "/tadeo_5.png", alt: "Detalle pies de Tadeo" },
+];
+// Duplicate for seamless infinite loop
+const allPhotos = [...photos, ...photos];
+---
+
+<section class="gallery-section" id="galeria">
+    <div class="gallery-header">
+        <span class="section-label">Momentos</span>
+        <h2 class="section-title">Galería de Tadeo</h2>
+        <span class="divider"></span>
+        <p class="gallery-hint">Haz clic en una foto para ampliarla</p>
+    </div>
+
+    <!-- Infinite scroll track -->
+    <div class="gallery-viewport" role="region" aria-label="Galería de fotos">
+        <div class="gallery-track" id="gallery-track">
+            {
+                allPhotos.map((photo, i) => (
+                    <button
+                        class="gallery-item"
+                        data-src={photo.src}
+                        data-alt={photo.alt}
+                        aria-label={`Ver foto: ${photo.alt}`}
+                        type="button"
+                    >
+                        <img src={photo.src} alt={photo.alt} loading="lazy" />
+                        <div class="gallery-item__overlay">
+                            <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            >
+                                <circle cx="11" cy="11" r="8" />
+                                <path d="M21 21l-4.35-4.35M11 8v6M8 11h6" />
+                            </svg>
+                        </div>
+                    </button>
+                ))
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<dialog
+    class="photo-modal"
+    id="photo-modal"
+    aria-modal="true"
+    aria-label="Foto ampliada"
+>
+    <div class="photo-modal__backdrop"></div>
+    <div class="photo-modal__content">
+        <img src="" alt="" id="modal-img" class="photo-modal__img" />
+        <button
+            class="photo-modal__close"
+            id="modal-close"
+            type="button"
+            aria-label="Cerrar"
+        >
+            <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                ><path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+</dialog>
+
+<script>
+    const track = document.getElementById("gallery-track") as HTMLElement;
+    const modal = document.getElementById("photo-modal") as HTMLDialogElement;
+    const modalImg = document.getElementById("modal-img") as HTMLImageElement;
+    const closeBtn = document.getElementById(
+        "modal-close"
+    ) as HTMLButtonElement;
+    const backdrop = modal.querySelector(
+        ".photo-modal__backdrop"
+    ) as HTMLElement;
+
+    let isPaused = false;
+
+    // Pause on hover
+    track.addEventListener("mouseenter", () => {
+        isPaused = true;
+        track.style.animationPlayState = "paused";
+    });
+    track.addEventListener("mouseleave", () => {
+        isPaused = false;
+        track.style.animationPlayState = "running";
+    });
+
+    // Open modal on click
+    track.addEventListener("click", (e) => {
+        const btn = (e.target as HTMLElement).closest(
+            ".gallery-item"
+        ) as HTMLButtonElement | null;
+        if (!btn) return;
+        const src = btn.dataset.src!;
+        const alt = btn.dataset.alt!;
+        modalImg.src = src;
+        modalImg.alt = alt;
+        modal.showModal();
+        document.body.style.overflow = "hidden";
+    });
+
+    function closeModal() {
+        modal.close();
+        document.body.style.overflow = "";
+        modalImg.src = "";
+    }
+
+    closeBtn.addEventListener("click", closeModal);
+    backdrop.addEventListener("click", closeModal);
+    modal.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
+    });
+</script>
+
+<style>
+    .gallery-section {
+        padding: var(--section-pad);
+        background: var(--warm-white);
+        overflow: hidden;
+    }
+
+    .gallery-header {
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto 3rem;
+    }
+
+    .gallery-hint {
+        font-size: 0.8rem;
+        color: var(--text-light);
+        font-style: italic;
+    }
+
+    /* ── Viewport & Track ── */
+    .gallery-viewport {
+        width: 100%;
+        overflow: hidden;
+        mask-image: linear-gradient(
+            to right,
+            transparent 0%,
+            black 8%,
+            black 92%,
+            transparent 100%
+        );
+        -webkit-mask-image: linear-gradient(
+            to right,
+            transparent 0%,
+            black 8%,
+            black 92%,
+            transparent 100%
+        );
+    }
+
+    .gallery-track {
+        display: flex;
+        gap: 1rem;
+        width: max-content;
+        animation: scroll-left 28s linear infinite;
+    }
+
+    /* ── Gallery Items ── */
+    .gallery-item {
+        flex-shrink: 0;
+        width: 280px;
+        height: 360px;
+        border-radius: var(--radius);
+        overflow: hidden;
+        cursor: pointer;
+        border: none;
+        padding: 0;
+        background: none;
+        position: relative;
+        box-shadow: 0 4px 20px rgba(26, 58, 92, 0.1);
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .gallery-item:hover {
+        transform: scale(1.04) translateY(-4px);
+        box-shadow: 0 16px 40px rgba(26, 58, 92, 0.18);
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+        pointer-events: none;
+    }
+
+    .gallery-item:hover img {
+        transform: scale(1.06);
+    }
+
+    .gallery-item__overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to top,
+            rgba(26, 58, 92, 0.6) 0%,
+            transparent 60%
+        );
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        padding: 1rem;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        color: white;
+    }
+
+    .gallery-item:hover .gallery-item__overlay {
+        opacity: 1;
+    }
+
+    /* ── Modal ── */
+    .photo-modal {
+        border: none;
+        background: transparent;
+        padding: 0;
+        max-width: 100%;
+        max-height: 100%;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        inset: 0;
+        margin: 0;
+    }
+
+    .photo-modal::backdrop {
+        background: transparent;
+    }
+
+    .photo-modal__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(10, 20, 40, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        cursor: pointer;
+    }
+
+    .photo-modal__content {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+    }
+
+    .photo-modal__img {
+        position: relative;
+        max-width: min(90vw, 700px);
+        max-height: 85vh;
+        object-fit: contain;
+        border-radius: var(--radius);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+        pointer-events: none;
+        animation: fade-in 0.3s ease;
+    }
+
+    .photo-modal__close {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: auto;
+        transition: var(--transition);
+        backdrop-filter: blur(4px);
+    }
+
+    .photo-modal__close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    @media (max-width: 640px) {
+        .gallery-item {
+            width: 220px;
+            height: 280px;
+        }
+    }
+</style>

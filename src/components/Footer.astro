@@ -1,0 +1,63 @@
+---
+// Footer.astro
+---
+
+<footer class="footer">
+    <div class="footer-line" aria-hidden="true"></div>
+    <p class="footer-text">
+        Esta página pertenece a<br />
+        <span class="footer-brand">Átomo by Override</span>
+    </p>
+</footer>
+
+<style>
+    .footer {
+        background: var(--text-dark);
+        padding: 3rem 1.5rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .footer-line {
+        width: 1px;
+        height: 40px;
+        background: linear-gradient(to bottom, var(--blue-accent), transparent);
+        margin: 0 auto 1.5rem;
+    }
+
+    .footer-text {
+        font-family: var(--font-sans);
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        color: rgba(255, 255, 255, 0.4);
+        text-transform: uppercase;
+        line-height: 1.8;
+    }
+
+    .footer-brand {
+        display: block;
+        font-family: var(--font-serif);
+        font-size: 1.5rem;
+        font-style: italic;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        text-transform: none;
+        color: var(--blue-accent);
+        margin-top: 0.25rem;
+        background: linear-gradient(135deg, var(--blue-accent), #93c5fd);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .footer-horse {
+        font-size: 8rem;
+        opacity: 0.03;
+        position: absolute;
+        right: -1rem;
+        bottom: -1rem;
+        line-height: 1;
+        pointer-events: none;
+    }
+</style>

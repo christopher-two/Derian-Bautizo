@@ -1,0 +1,196 @@
+---
+// Hero.astro — Main event header
+---
+
+<section class="hero" id="hero">
+    <div class="hero__content">
+        <span class="section-label hero__label">Nos complace invitarte</span>
+        <p class="hero__subtitle">Bautizo</p>
+        <h1 class="hero__name">
+            Derian Tadeo<br /><span>Maldonado Lopez</span>
+        </h1>
+        <span class="divider"></span>
+        <p class="hero__date">29 · Marzo · 2026</p>
+        <p class="hero__sub">Un nuevo comienzo, una vida bendecida</p>
+        <a href="#detalles" class="hero__cta">
+            <span>Ver detalles</span>
+            <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                ><path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+        </a>
+    </div>
+
+    <div class="hero__scroll-hint" aria-hidden="true">
+        <span class="scroll-dot"></span>
+        <span class="scroll-dot"></span>
+        <span class="scroll-dot"></span>
+    </div>
+</section>
+
+<style>
+    .hero {
+        position: relative;
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem 1.5rem;
+        overflow: hidden;
+        background: radial-gradient(
+                ellipse 60% 50% at 80% 20%,
+                rgba(96, 165, 250, 0.12) 0%,
+                transparent 60%
+            ),
+            radial-gradient(
+                ellipse 40% 40% at 10% 80%,
+                rgba(37, 99, 168, 0.08) 0%,
+                transparent 60%
+            ),
+            var(--cream);
+    }
+
+    .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 39px,
+                rgba(96, 165, 250, 0.04) 40px
+            ),
+            repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 39px,
+                rgba(96, 165, 250, 0.04) 40px
+            );
+        pointer-events: none;
+    }
+
+    .hero__content {
+        position: relative;
+        text-align: center;
+        max-width: 720px;
+        animation: fade-in-up 1s ease both;
+    }
+
+    .hero__label {
+        display: block;
+        margin-bottom: 0.75rem;
+        animation: fade-in-up 1s 0.1s ease both;
+    }
+
+    /* 'Bautizo' — subtle label, secondary */
+    .hero__subtitle {
+        font-family: var(--font-sans);
+        font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+        font-weight: 400;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: var(--blue-light);
+        margin-bottom: 0.75rem;
+        animation: fade-in-up 1s 0.15s ease both;
+    }
+
+    /* 'Derian Tadeo' — the star */
+    .hero__name {
+        font-family: var(--font-serif);
+        font-size: clamp(3.5rem, 11vw, 8rem);
+        font-weight: 700;
+        color: var(--blue-deep);
+        line-height: 0.95;
+        letter-spacing: -0.025em;
+        margin-top: 0;
+        animation: fade-in-up 1s 0.25s ease both;
+    }
+
+    .hero__name span {
+        display: block;
+        font-size: 0.5em;
+        font-weight: 300;
+        color: var(--blue-mid);
+        letter-spacing: 0.08em;
+        margin-top: 0.4em;
+        font-style: italic;
+    }
+
+    .divider {
+        animation: fade-in 1s 0.5s ease both;
+    }
+
+    .hero__date {
+        font-family: var(--font-sans);
+        font-size: 0.85rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--blue-mid);
+        font-weight: 500;
+        animation: fade-in-up 1s 0.6s ease both;
+    }
+
+    .hero__sub {
+        font-family: var(--font-serif);
+        font-style: italic;
+        color: var(--text-light);
+        font-size: 1.05rem;
+        margin-top: 0.5rem;
+        animation: fade-in-up 1s 0.7s ease both;
+    }
+
+    .hero__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 2.5rem;
+        padding: 0.8rem 2rem;
+        border: 1px solid var(--blue-mid);
+        border-radius: 100px;
+        color: var(--blue-mid);
+        font-family: var(--font-sans);
+        font-size: 0.85rem;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        transition: var(--transition);
+        animation: fade-in-up 1s 0.9s ease both;
+    }
+
+    .hero__cta:hover {
+        background: var(--blue-mid);
+        color: white;
+        box-shadow: 0 8px 24px rgba(37, 99, 168, 0.3);
+    }
+
+    .hero__scroll-hint {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
+    }
+
+    .scroll-dot {
+        display: block;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--blue-accent);
+        animation: pulse-dot 1.4s ease-in-out infinite;
+    }
+    .scroll-dot:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+    .scroll-dot:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+</style>

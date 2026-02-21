@@ -139,13 +139,6 @@ const row2Photos = [...photos.slice(half), ...photos.slice(half)];
         const track = document.getElementById(trackId) as HTMLElement;
         if (!track) return;
 
-        track.addEventListener("mouseenter", () => {
-            track.style.animationPlayState = "paused";
-        });
-        track.addEventListener("mouseleave", () => {
-            track.style.animationPlayState = "running";
-        });
-
         track.addEventListener("click", (e) => {
             const btn = (e.target as HTMLElement).closest(
                 ".gallery-item"

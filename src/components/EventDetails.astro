@@ -201,23 +201,31 @@
     }
 
     .detail-card--accent {
-        background: linear-gradient(135deg, var(--blue-deep) 0%, #0f2744 100%);
+        background: var(--warm-white);
+        border-left: 1px solid var(--border);
     }
 
-    .detail-card--accent .detail-card__icon,
-    .detail-card--accent .detail-card__name,
+    .detail-card--accent .detail-card__icon {
+        color: var(--blue-mid);
+    }
+
+    .detail-card--accent .detail-card__name {
+        color: var(--blue-deep);
+    }
+
     .detail-card--accent .detail-card__list {
-        color: var(--warm-white);
+        color: var(--text-mid);
     }
 
     .detail-card--accent .detail-card__badge {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.2);
-        color: rgba(255, 255, 255, 0.8);
+        background: transparent;
+        border-color: var(--border);
+        color: var(--blue-mid);
     }
 
     .detail-card--accent .detail-card__address {
-        color: rgba(255, 255, 255, 0.5);
+        color: var(--text-mid);
+        opacity: 0.7;
     }
 
     .detail-card__icon {

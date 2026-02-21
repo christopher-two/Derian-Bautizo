@@ -18,8 +18,10 @@ const photos = files.map((file) => ({
     alt: `Foto del bautizo de Derian Tadeo`,
 }));
 
-// Duplicate for seamless infinite loop
-const allPhotos = [...photos, ...photos];
+// Split in half: first row / second row in reverse order
+const half = Math.ceil(photos.length / 2);
+const row1Photos = [...photos.slice(0, half), ...photos.slice(0, half)];
+const row2Photos = [...photos.slice(half), ...photos.slice(half)];
 ---
 
 <section class="gallery-section" id="galeria">
@@ -30,11 +32,51 @@ const allPhotos = [...photos, ...photos];
         <p class="gallery-hint">Haz clic en una foto para ampliarla</p>
     </div>
 
-    <!-- Infinite scroll track -->
-    <div class="gallery-viewport" role="region" aria-label="Galería de fotos">
-        <div class="gallery-track" id="gallery-track">
+    <!-- Row 1: scrolls left -->
+    <div
+        class="gallery-viewport"
+        role="region"
+        aria-label="Galería de fotos - fila 1"
+    >
+        <div class="gallery-track gallery-track--left" id="gallery-track-1">
             {
-                allPhotos.map((photo, i) => (
+                row1Photos.map((photo, i) => (
+                    <button
+                        class="gallery-item"
+                        data-src={photo.src}
+                        data-alt={photo.alt}
+                        aria-label={`Ver foto: ${photo.alt}`}
+                        type="button"
+                    >
+                        <img src={photo.src} alt={photo.alt} loading="lazy" />
+                        <div class="gallery-item__overlay">
+                            <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            >
+                                <circle cx="11" cy="11" r="8" />
+                                <path d="M21 21l-4.35-4.35M11 8v6M8 11h6" />
+                            </svg>
+                        </div>
+                    </button>
+                ))
+            }
+        </div>
+    </div>
+
+    <!-- Row 2: scrolls right -->
+    <div
+        class="gallery-viewport"
+        role="region"
+        aria-label="Galería de fotos - fila 2"
+    >
+        <div class="gallery-track gallery-track--right" id="gallery-track-2">
+            {
+                row2Photos.map((photo, i) => (
                     <button
                         class="gallery-item"
                         data-src={photo.src}
@@ -93,7 +135,40 @@ const allPhotos = [...photos, ...photos];
 </dialog>
 
 <script>
-    const track = document.getElementById("gallery-track") as HTMLElement;
+    function setupTrack(trackId: string) {
+        const track = document.getElementById(trackId) as HTMLElement;
+        if (!track) return;
+
+        track.addEventListener("mouseenter", () => {
+            track.style.animationPlayState = "paused";
+        });
+        track.addEventListener("mouseleave", () => {
+            track.style.animationPlayState = "running";
+        });
+
+        track.addEventListener("click", (e) => {
+            const btn = (e.target as HTMLElement).closest(
+                ".gallery-item"
+            ) as HTMLButtonElement | null;
+            if (!btn) return;
+            const src = btn.dataset.src!;
+            const alt = btn.dataset.alt!;
+            const modal = document.getElementById(
+                "photo-modal"
+            ) as HTMLDialogElement;
+            const modalImg = document.getElementById(
+                "modal-img"
+            ) as HTMLImageElement;
+            modalImg.src = src;
+            modalImg.alt = alt;
+            modal.showModal();
+            document.body.style.overflow = "hidden";
+        });
+    }
+
+    setupTrack("gallery-track-1");
+    setupTrack("gallery-track-2");
+
     const modal = document.getElementById("photo-modal") as HTMLDialogElement;
     const modalImg = document.getElementById("modal-img") as HTMLImageElement;
     const closeBtn = document.getElementById(
@@ -102,32 +177,6 @@ const allPhotos = [...photos, ...photos];
     const backdrop = modal.querySelector(
         ".photo-modal__backdrop"
     ) as HTMLElement;
-
-    let isPaused = false;
-
-    // Pause on hover
-    track.addEventListener("mouseenter", () => {
-        isPaused = true;
-        track.style.animationPlayState = "paused";
-    });
-    track.addEventListener("mouseleave", () => {
-        isPaused = false;
-        track.style.animationPlayState = "running";
-    });
-
-    // Open modal on click
-    track.addEventListener("click", (e) => {
-        const btn = (e.target as HTMLElement).closest(
-            ".gallery-item"
-        ) as HTMLButtonElement | null;
-        if (!btn) return;
-        const src = btn.dataset.src!;
-        const alt = btn.dataset.alt!;
-        modalImg.src = src;
-        modalImg.alt = alt;
-        modal.showModal();
-        document.body.style.overflow = "hidden";
-    });
 
     function closeModal() {
         modal.close();
@@ -179,13 +228,30 @@ const allPhotos = [...photos, ...photos];
             black 92%,
             transparent 100%
         );
+        margin-bottom: 1rem;
     }
 
     .gallery-track {
         display: flex;
         gap: 1rem;
         width: max-content;
-        animation: scroll-left 28s linear infinite;
+    }
+
+    .gallery-track--left {
+        animation: scroll-left 50s linear infinite;
+    }
+
+    .gallery-track--right {
+        animation: scroll-right 50s linear infinite;
+    }
+
+    @keyframes scroll-right {
+        from {
+            transform: translateX(calc(-50% - 0.5rem));
+        }
+        to {
+            transform: translateX(0);
+        }
     }
 
     /* ── Gallery Items ── */

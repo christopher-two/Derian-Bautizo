@@ -1,12 +1,23 @@
 ---
 // PhotoGallery.astro — Infinite auto-scroll with click to zoom
-const photos = [
-    { src: "/tadeo_1.png", alt: "Tadeo - Retrato bautizo" },
-    { src: "/tadeo_2.png", alt: "Ceremonia de bautizo" },
-    { src: "/tadeo_3.png", alt: "Tadeo durmiendo" },
-    { src: "/tadeo_4.png", alt: "Tadeo con mamá" },
-    { src: "/tadeo_5.png", alt: "Detalle pies de Tadeo" },
-];
+import { readdirSync } from "fs";
+import { join } from "path";
+
+// Read all images from public/fotos at build time
+const fotosDir = join(process.cwd(), "public", "fotos");
+const imageExtensions = [".jpg", ".jpeg", ".png", ".webp", ".avif", ".gif"];
+
+const files = readdirSync(fotosDir).filter((file) =>
+    imageExtensions.includes(
+        file.substring(file.lastIndexOf(".")).toLowerCase()
+    )
+);
+
+const photos = files.map((file) => ({
+    src: `/fotos/${file}`,
+    alt: `Foto del bautizo de Derian Tadeo`,
+}));
+
 // Duplicate for seamless infinite loop
 const allPhotos = [...photos, ...photos];
 ---

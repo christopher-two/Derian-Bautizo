@@ -71,14 +71,24 @@
     .countdown-section {
         padding: var(--section-pad);
         background: linear-gradient(
-            160deg,
+            to bottom,
             var(--blue-deep) 0%,
-            #0f2744 80%,
-            var(--warm-white) 100%
+            #0f2744 100%
         );
         text-align: center;
         position: relative;
         overflow: hidden;
+    }
+
+    .countdown-section::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 150px;
+        background: linear-gradient(to bottom, transparent, var(--warm-white));
+        pointer-events: none;
     }
 
     .countdown-section::before {

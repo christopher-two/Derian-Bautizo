@@ -1,46 +1,48 @@
-# Astro Starter Kit: Basics
+# 👶 Invitación Bautizo - Derian Tadeo
 
-```sh
-pnpm create astro@latest -- --template basics
-```
+Este proyecto es una invitación web minimalista y elegante para el bautizo de **Derian Tadeo Maldonado Lopez**, construida con **Astro** y **CSS Puro**.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## ✨ Características
 
-## 🚀 Project Structure
+- 🐴 **Diseño Minimalista**: Estética limpia con temática de caballos y acentos en azul.
+- ⏳ **Contador en Vivo**: Cuenta regresiva en tiempo real para el gran día (29 de Marzo de 2026).
+- 📸 **Galería de Fotos**: Galería interactiva con scroll infinito y zoom.
+- 📍 **Detalles del Evento**: Información clara sobre la ceremonia y la recepción.
+- 🎵 **Playlist de Spotify**: Integración de música para ambientar la invitación.
+- 🗺️ **Google Maps**: Ubicaciones interactivas de la iglesia y el salón.
+- 📱 **Confirmación por WhatsApp (RSVP)**: Botón directo para confirmar asistencia.
+- 🌗 **Diseño Responsivo**: Optimizado para dispositivos móviles y escritorio.
 
-Inside of your Astro project, you'll see the following folders and files:
+## 🚀 Tecnologías
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+- **Framework**: [Astro](https://astro.build/)
+- **Estilos**: Vanilla CSS
+- **Iconos**: SVG
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## 🛠️ Instalación y Desarrollo
 
-## 🧞 Commands
+Para ejecutar este proyecto de forma local, asegúrate de tener [Node.js](https://nodejs.org/) instalado.
 
-All commands are run from the root of the project, from a terminal:
+1. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/christopher-two/Derian-Bautizo.git
+   cd Derian-Bautizo
+   ```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+2. **Instalar dependencias:**
+   ```bash
+   pnpm install
+   ```
 
-## 👀 Want to learn more?
+3. **Iniciar el servidor de desarrollo:**
+   ```bash
+   pnpm dev
+   ```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+4. **Construir para producción:**
+   ```bash
+   pnpm build
+   ```
+
+---
+Creado con ❤️ para el bautizo de Derian Tadeo.

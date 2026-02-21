@@ -7,18 +7,24 @@ import { join } from "path";
 const fotosDir = join(process.cwd(), "public", "fotos");
 const imageExtensions = [".jpg", ".jpeg", ".png", ".webp", ".avif", ".gif"];
 
-const files = readdirSync(fotosDir).filter((file) =>
-    imageExtensions.includes(
-        file.substring(file.lastIndexOf(".")).toLowerCase()
-    )
-);
+let files: string[] = [];
+try {
+    files = readdirSync(fotosDir).filter((file: string) =>
+        imageExtensions.includes(
+            file.substring(file.lastIndexOf(".")).toLowerCase()
+        )
+    );
+} catch {
+    // Folder doesn't exist (e.g. clean Vercel clone without photos committed)
+    files = [];
+}
 
-const photos = files.map((file) => ({
+const photos = files.map((file: string) => ({
     src: `/fotos/${file}`,
     alt: `Foto del bautizo de Derian Tadeo`,
 }));
 
-// Split in half: first row / second row in reverse order
+// Split in half: first row / second row
 const half = Math.ceil(photos.length / 2);
 const row1Photos = [...photos.slice(0, half), ...photos.slice(0, half)];
 const row2Photos = [...photos.slice(half), ...photos.slice(half)];
